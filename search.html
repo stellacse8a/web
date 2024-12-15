@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Restrooms - RATE SWU RESTROOM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Search Restrooms</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="search.html">Search</a></li>
+                <li><a href="submit.html">Submit Review</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="filter">
+        <h2>Filter Restrooms</h2>
+        <form id="searchForm" aria-label="Filter Restrooms">
+            <label for="building">Building Name:</label>
+            <select id="building" name="building">
+                <option value="">Select Building</option>
+                <option value="Building A">Building A</option>
+                <option value="Building B">Building B</option>
+                <option value="Building C">Building C</option>
+            </select>
+
+            <label for="rating">Minimum Rating:</label>
+            <select id="rating" name="rating">
+                <option value="">Select Rating</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+
+            <label>
+                <input type="checkbox" id="recent" name="recent">
+                Show Latest Reviews Only
+            </label>
+
+            <button type="button" id="filterBtn">Apply Filters</button>
+        </form>
+    </section>
+
+    <section id="results">
+        <h2>Search Results</h2>
+        <div id="restroomList" aria-live="polite">
+            <!-- Results will be dynamically added here -->
+        </div>
+        <div role="alert" id="noResultsMessage" style="display:none;">No results found. Try adjusting the filters.</div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 RATE SWU RESTROOM. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('filterBtn').addEventListener('click', () => {
+            const building = document.getElementById('building').value;
+            const rating = document.getElementById('rating').value;
+            const recent = document.getElementById('recent').checked;
+
+            const results = [
+                { name: 'Building A - 1st Floor', rating: 5, recent: true },
+                { name: 'Building B - 2nd Floor', rating: 4, recent: false },
+                { name: 'Building C - 1st Floor', rating: 3, recent: true }
+            ];
+
+            const filteredResults = results.filter(restroom => {
+                const matchesBuilding = !building || restroom.name.includes(building);
+                const matchesRating = !rating || restroom.rating >= Number(rating);
+                const matchesRecent = !recent || restroom.recent;
+                return matchesBuilding && matchesRating && matchesRecent;
+            });
+
+            const restroomList = document.getElementById('restroomList');
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            restroomList.innerHTML = '';
+
+            if (filteredResults.length > 0) {
+                noResultsMessage.style.display = 'none';
+                filteredResults.forEach(restroom => {
+                    const li = document.createElement('li');
+                    li.className = 'restroom-card';
+                    li.innerHTML = `<h3>${restroom.name}</h3><p>Rating: ${restroom.rating} Stars</p>`;
+                    restroomList.appendChild(li);
+                });
+            } else {
+                noResultsMessage.style.display = 'block';
+            }
+        });
+
+        const filterBtn = document.getElementById('filterBtn');
+        filterBtn.addEventListener('click', () => {
+            filterBtn.textContent = 'Loading...';
+            setTimeout(() => {
+                filterBtn.textContent = 'Apply Filters';
+            }, 1000);
+        });
+
+        window.onload = () => {
+            document.getElementById('building').value = localStorage.getItem('building') || '';
+            document.getElementById('rating').value = localStorage.getItem('rating') || '';
+        };
+
+        filterBtn.addEventListener('click', () => {
+            localStorage.setItem('building', document.getElementById('building').value);
+            localStorage.setItem('rating', document.getElementById('rating').value);
+        });
+    </script>
+</body>
+</html>

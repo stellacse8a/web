@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Review - RATE SWU RESTROOM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Submit a Review</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="search.html">Search</a></li>
+                <li><a href="detail.html">View Details</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="submit-review">
+        <h2>Write Your Review</h2>
+        <form id="reviewForm">
+            <label for="building">Building:</label>
+            <select id="building" name="building" required>
+                <option value="">Select Building</option>
+                <option value="Building A">Building A</option>
+                <option value="Building B">Building B</option>
+                <option value="Building C">Building C</option>
+            </select>
+
+            <label for="rating">Rating:</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required>
+
+            <label for="review">Review:</label>
+            <textarea id="review" name="review" rows="4" placeholder="Write your review here..." required></textarea>
+
+            <label for="photo">Upload Photo:</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
+
+            <button type="submit">Submit Review</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 RATE SWU RESTROOM. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', (e) => {
+            e.preventDefault(); // 기본 제출 동작 방지
+            const building = document.getElementById('building').value;
+            const rating = document.getElementById('rating').value;
+            const review = document.getElementById('review').value;
+
+            alert(`Review Submitted:\nBuilding: ${building}\nRating: ${rating}\nReview: ${review}`);
+            // 서버로 데이터 전송 로직 추가 가능
+        });
+    </script>
+</body>
+</html>
