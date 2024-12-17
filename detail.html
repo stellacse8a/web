@@ -1,48 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restroom Details - RATE SWU RESTROOM</title>
+    <title>화장실 상세 정보 - RATE SWU RESTROOM</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <h1>Restroom Details</h1>
+        <h1>화장실 상세 정보</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="search.html">Search</a></li>
-                <li><a href="submit.html">Submit Review</a></li>
+                <li><a href="index.html">홈</a></li>
+                <li><a href="search.html">검색</a></li>
+                <li><a href="submit.html">리뷰 작성</a></li>
             </ul>
         </nav>
     </header>
 
+    <!-- 화장실 상세 정보 섹션 -->
     <section id="details">
-        <h2>Building A - 1st Floor</h2>
-        <p><strong>Average Rating:</strong> ⭐⭐⭐⭐☆</p>
-        <h3>Gallery</h3>
+        <h2>중앙도서관 - 1층</h2>
+        <p><strong>평균 평점:</strong> ⭐⭐⭐⭐☆</p>
+
+        <!-- 사진 갤러리 -->
+        <h3><i class="fas fa-images"></i> 화장실 사진</h3>
         <div class="gallery">
-            <img src="images/restroom1.jpg" alt="Restroom Image 1">
-            <img src="images/restroom2.jpg" alt="Restroom Image 2">
+            <img src="images/restroom1.jpg" alt="중앙도서관 화장실 1">
+            <img src="images/restroom2.jpg" alt="중앙도서관 화장실 2">
         </div>
 
-        <h3>Recent Reviews</h3>
+        <!-- 최신 리뷰 -->
+        <h3><i class="fas fa-comments"></i> 최신 리뷰</h3>
         <ul>
-            <li>"Very clean and spacious." - Jane Doe</li>
-            <li>"Great lighting and supplies." - John Smith</li>
-            <li>"Convenient location but could be cleaner." - Emily Lee</li>
+            <li>"화장실이 매우 깨끗하고 편리했어요!" - 김민지</li>
+            <li>"조명이 밝고 공간이 넓어서 좋았어요." - 이수현</li>
+            <li>"손 건조기가 고장 나서 불편했어요." - 박정윤</li>
         </ul>
 
-        <h3>Recommended Restrooms Nearby</h3>
+        <!-- 근처 추천 화장실 -->
+        <h3><i class="fas fa-map-marker-alt"></i> 근처 추천 화장실</h3>
         <ul>
-            <li>Building A - 2nd Floor (⭐4.5)</li>
-            <li>Building B - 1st Floor (⭐4.0)</li>
+            <li>인문사회관 - 2층 (⭐4.5)</li>
+            <li>학생누리관 - 1층 (⭐4.0)</li>
         </ul>
     </section>
 
-    <footer>
-        <p>&copy; 2024 RATE SWU RESTROOM. All rights reserved.</p>
-    </footer>
+    <!-- 평점 분석 차트 -->
+    <section id="rating-chart">
+        <h3><i class="fas fa-chart-bar"></i> 평점 분석</h3>
+        <canvas id="ratingChart" style="width: 100%; max-width: 600px;"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx = document.getElementById('ratingChart').getContext('2d');
+            const ratingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['청결도', '편의성', '혼잡도'],
+                    datasets: [{
+                        label: '평균 점수',
+                        data: [4.5, 4.2, 3.8],
+                        backgroundColor: ['#007bff', '#28a745', '#ffc107']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5
+                        }
+                    }
+                }
+            });
+        </script>
+    </section>
 </body>
 </html>
+
