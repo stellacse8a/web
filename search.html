@@ -1,64 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Restrooms - RATE SWU RESTROOM</title>
+    <title>화장실 검색 - RATE SWU RESTROOM</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <h1>Search Restrooms</h1>
+        <h1>화장실 검색</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="search.html">Search</a></li>
-                <li><a href="submit.html">Submit Review</a></li>
+                <li><a href="index.html">홈</a></li>
+                <li><a href="search.html">검색</a></li>
+                <li><a href="submit.html">리뷰 작성</a></li>
             </ul>
         </nav>
     </header>
 
+    <!-- 필터 섹션 -->
     <section id="filter">
-        <h2>Filter Restrooms</h2>
-        <form id="searchForm" aria-label="Filter Restrooms">
-            <label for="building">Building Name:</label>
+        <h2><i class="fas fa-filter"></i> 화장실 필터링</h2>
+        <form id="searchForm" aria-label="화장실 필터링">
+            <label for="building">건물 이름:</label>
             <select id="building" name="building">
-                <option value="">Select Building</option>
-                <option value="Building A">Building A</option>
-                <option value="Building B">Building B</option>
-                <option value="Building C">Building C</option>
+                <option value="">건물 선택</option>
+                <option value="Central Library">중앙도서관</option>
+                <option value="Humanities Building">인문사회관</option>
+                <option value="Science Building 1">제1과학관</option>
+                <option value="Science Building 2">제2과학관</option>
+                <option value="Student Union">학생누리관</option>
+                <option value="Anniversary Hall">50주년기념관</option>
             </select>
 
-            <label for="rating">Minimum Rating:</label>
+            <label for="rating">최소 평점:</label>
             <select id="rating" name="rating">
-                <option value="">Select Rating</option>
-                <option value="1">1 Star</option>
-                <option value="2">2 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="5">5 Stars</option>
+                <option value="">평점 선택</option>
+                <option value="1">별 1</option>
+                <option value="2">별 2</option>
+                <option value="3">별 3</option>
+                <option value="4">별 4</option>
+                <option value="5">별 5</option>
             </select>
 
             <label>
                 <input type="checkbox" id="recent" name="recent">
-                Show Latest Reviews Only
+                최신 리뷰만 보기
             </label>
 
-            <button type="button" id="filterBtn">Apply Filters</button>
+            <button type="button" id="filterBtn">필터 적용</button>
         </form>
     </section>
 
+    <!-- 결과 섹션 -->
     <section id="results">
-        <h2>Search Results</h2>
+        <h2><i class="fas fa-search"></i> 검색 결과</h2>
         <div id="restroomList" aria-live="polite">
-            <!-- Results will be dynamically added here -->
+            <!-- 검색 결과가 여기에 표시됩니다 -->
         </div>
-        <div role="alert" id="noResultsMessage" style="display:none;">No results found. Try adjusting the filters.</div>
+        <div role="alert" id="noResultsMessage" style="display:none;">결과가 없습니다. 필터를 조정해보세요.</div>
     </section>
-
-    <footer>
-        <p>&copy; 2024 RATE SWU RESTROOM. All rights reserved.</p>
-    </footer>
 
     <script>
         document.getElementById('filterBtn').addEventListener('click', () => {
@@ -66,12 +69,23 @@
             const rating = document.getElementById('rating').value;
             const recent = document.getElementById('recent').checked;
 
+            // 가상의 화장실 데이터
             const results = [
-                { name: 'Building A - 1st Floor', rating: 5, recent: true },
-                { name: 'Building B - 2nd Floor', rating: 4, recent: false },
-                { name: 'Building C - 1st Floor', rating: 3, recent: true }
+                { name: '중앙도서관 - 1층', rating: 4.8, recent: true },
+                { name: '중앙도서관 - 2층', rating: 4.5, recent: false },
+                { name: '인문사회관 - 1층', rating: 4.2, recent: true },
+                { name: '인문사회관 - 2층', rating: 3.9, recent: true },
+                { name: '제1과학관 - 1층', rating: 4.6, recent: true },
+                { name: '제1과학관 - 2층', rating: 4.3, recent: false },
+                { name: '제2과학관 - 1층', rating: 4.1, recent: true },
+                { name: '제2과학관 - 2층', rating: 3.7, recent: false },
+                { name: '학생누리관 - 1층', rating: 4.4, recent: true },
+                { name: '학생누리관 - 2층', rating: 4.0, recent: true },
+                { name: '50주년기념관 - 1층', rating: 4.9, recent: true },
+                { name: '50주년기념관 - 2층', rating: 4.7, recent: false }
             ];
 
+            // 필터링 로직
             const filteredResults = results.filter(restroom => {
                 const matchesBuilding = !building || restroom.name.includes(building);
                 const matchesRating = !rating || restroom.rating >= Number(rating);
@@ -79,6 +93,7 @@
                 return matchesBuilding && matchesRating && matchesRecent;
             });
 
+            // 결과 표시
             const restroomList = document.getElementById('restroomList');
             const noResultsMessage = document.getElementById('noResultsMessage');
             restroomList.innerHTML = '';
@@ -88,7 +103,7 @@
                 filteredResults.forEach(restroom => {
                     const li = document.createElement('li');
                     li.className = 'restroom-card';
-                    li.innerHTML = `<h3>${restroom.name}</h3><p>Rating: ${restroom.rating} Stars</p>`;
+                    li.innerHTML = `<h3>${restroom.name}</h3><p>평점: ${restroom.rating} 별</p>`;
                     restroomList.appendChild(li);
                 });
             } else {
@@ -98,9 +113,9 @@
 
         const filterBtn = document.getElementById('filterBtn');
         filterBtn.addEventListener('click', () => {
-            filterBtn.textContent = 'Loading...';
+            filterBtn.textContent = '로딩 중...';
             setTimeout(() => {
-                filterBtn.textContent = 'Apply Filters';
+                filterBtn.textContent = '필터 적용';
             }, 1000);
         });
 
@@ -116,3 +131,5 @@
     </script>
 </body>
 </html>
+
+
