@@ -1,61 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Review - RATE SWU RESTROOM</title>
+    <title>리뷰 작성 - RATE SWU RESTROOM</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <h1>Submit a Review</h1>
+        <h1>리뷰 작성</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="search.html">Search</a></li>
-                <li><a href="detail.html">View Details</a></li>
+                <li><a href="index.html">홈</a></li>
+                <li><a href="search.html">검색</a></li>
+                <li><a href="submit.html">리뷰 작성</a></li>
             </ul>
         </nav>
     </header>
 
+    <!-- 리뷰 작성 폼 -->
     <section id="submit-review">
-        <h2>Write Your Review</h2>
+        <h2><i class="fas fa-edit"></i> 화장실 리뷰 작성</h2>
         <form id="reviewForm">
-            <label for="building">Building:</label>
+            <!-- 건물 선택 -->
+            <label for="building">건물:</label>
             <select id="building" name="building" required>
-                <option value="">Select Building</option>
-                <option value="Building A">Building A</option>
-                <option value="Building B">Building B</option>
-                <option value="Building C">Building C</option>
+                <option value="">건물 선택</option>
+                <option value="Central Library">중앙도서관</option>
+                <option value="Humanities Building">인문사회관</option>
+                <option value="Science Building 1">제1과학관</option>
+                <option value="Science Building 2">제2과학관</option>
+                <option value="Student Union">학생누리관</option>
+                <option value="Anniversary Hall">50주년기념관</option>
             </select>
 
-            <label for="rating">Rating:</label>
-            <input type="number" id="rating" name="rating" min="1" max="5" required>
+            <!-- 청결도 -->
+            <label for="cleanliness">청결도:</label>
+            <div class="rating">
+                <input type="radio" id="cleanliness-5" name="cleanliness" value="5">
+                <label for="cleanliness-5">⭐</label>
+                <input type="radio" id="cleanliness-4" name="cleanliness" value="4">
+                <label for="cleanliness-4">⭐</label>
+                <input type="radio" id="cleanliness-3" name="cleanliness" value="3">
+                <label for="cleanliness-3">⭐</label>
+                <input type="radio" id="cleanliness-2" name="cleanliness" value="2">
+                <label for="cleanliness-2">⭐</label>
+                <input type="radio" id="cleanliness-1" name="cleanliness" value="1">
+                <label for="cleanliness-1">⭐</label>
+            </div>
 
-            <label for="review">Review:</label>
-            <textarea id="review" name="review" rows="4" placeholder="Write your review here..." required></textarea>
+            <!-- 편의성 -->
+            <label for="convenience">편의성:</label>
+            <div class="rating">
+                <input type="radio" id="convenience-5" name="convenience" value="5">
+                <label for="convenience-5">⭐</label>
+                <input type="radio" id="convenience-4" name="convenience" value="4">
+                <label for="convenience-4">⭐</label>
+                <input type="radio" id="convenience-3" name="convenience" value="3">
+                <label for="convenience-3">⭐</label>
+                <input type="radio" id="convenience-2" name="convenience" value="2">
+                <label for="convenience-2">⭐</label>
+                <input type="radio" id="convenience-1" name="convenience" value="1">
+                <label for="convenience-1">⭐</label>
+            </div>
 
-            <label for="photo">Upload Photo:</label>
+            <!-- 혼잡도 -->
+            <label for="crowdedness">혼잡도:</label>
+            <div class="rating">
+                <input type="radio" id="crowdedness-5" name="crowdedness" value="5">
+                <label for="crowdedness-5">⭐</label>
+                <input type="radio" id="crowdedness-4" name="crowdedness" value="4">
+                <label for="crowdedness-4">⭐</label>
+                <input type="radio" id="crowdedness-3" name="crowdedness" value="3">
+                <label for="crowdedness-3">⭐</label>
+                <input type="radio" id="crowdedness-2" name="crowdedness" value="2">
+                <label for="crowdedness-2">⭐</label>
+                <input type="radio" id="crowdedness-1" name="crowdedness" value="1">
+                <label for="crowdedness-1">⭐</label>
+            </div>
+
+            <!-- 리뷰 작성 -->
+            <label for="review">리뷰 내용:</label>
+            <textarea id="review" name="review" rows="4" placeholder="리뷰를 작성해주세요..." required></textarea>
+
+            <!-- 사진 업로드 -->
+            <label for="photo">사진 업로드:</label>
             <input type="file" id="photo" name="photo" accept="image/*">
+            <div id="photo-preview"></div> <!-- 사진 미리보기 -->
 
-            <button type="submit">Submit Review</button>
+            <!-- 제출 버튼 -->
+            <button type="submit">리뷰 제출</button>
         </form>
     </section>
 
-    <footer>
-        <p>&copy; 2024 RATE SWU RESTROOM. All rights reserved.</p>
-    </footer>
-
     <script>
+        // 사진 업로드 미리보기
+        document.getElementById('photo').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const imgPreview = document.createElement('img');
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.maxWidth = '100%';
+                    imgPreview.style.marginTop = '1rem';
+                    imgPreview.style.borderRadius = '10px';
+
+                    const previewContainer = document.getElementById('photo-preview');
+                    previewContainer.innerHTML = ''; // 기존 미리보기 초기화
+                    previewContainer.appendChild(imgPreview);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 리뷰 제출 이벤트 처리
         document.getElementById('reviewForm').addEventListener('submit', (e) => {
             e.preventDefault(); // 기본 제출 동작 방지
             const building = document.getElementById('building').value;
-            const rating = document.getElementById('rating').value;
+            const cleanliness = document.querySelector('input[name="cleanliness"]:checked')?.value || 0;
+            const convenience = document.querySelector('input[name="convenience"]:checked')?.value || 0;
+            const crowdedness = document.querySelector('input[name="crowdedness"]:checked')?.value || 0;
             const review = document.getElementById('review').value;
 
-            alert(`Review Submitted:\nBuilding: ${building}\nRating: ${rating}\nReview: ${review}`);
-            // 서버로 데이터 전송 로직 추가 가능
+            alert(`리뷰가 제출되었습니다:\n건물: ${building}\n청결도: ${cleanliness}점\n편의성: ${convenience}점\n혼잡도: ${crowdedness}점\n리뷰: ${review}`);
         });
     </script>
 </body>
 </html>
+
